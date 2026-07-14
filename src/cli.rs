@@ -15,7 +15,7 @@ pub struct Cli {
 pub enum Command {
     /// Compile LaTeX files in the current working directory.
     Build {
-        /// The file to build. If not specified, all .tex files in the current working directory will be compiled.
+        /// The file to build. If not specified, the --all flag must be set.
         file: Option<String>,
 
         /// Which Biblatex command to use.
@@ -25,6 +25,10 @@ pub enum Command {
         /// Whether or not to run makeglossaries
         #[arg(short, long, default_value_t = false)]
         glossary: bool,
+
+        /// Whether or not to compile all LaTeX files in the current working directory.
+        #[arg(short, long, default_value_t = false)]
+        all: bool,
     },
 
     /// Create a new LaTeX document using a TUI.

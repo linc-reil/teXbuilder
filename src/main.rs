@@ -10,7 +10,15 @@ fn main() {
             file,
             bibcmd,
             glossary,
-        } => compile::compile(file, bibcmd, glossary),
-        cli::Command::Create => println!("create dat bitch"),
+            all,
+        } => {
+            let result = compile::compile(file, bibcmd, glossary, all);
+            if let Err(e) = result {
+                println!("{}", e);
+            }
+        }
+        cli::Command::Create => {
+            println!("create dat bitch")
+        }
     }
 }
