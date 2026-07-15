@@ -1,8 +1,18 @@
 use clap::Parser;
+mod clear;
 mod cli;
 mod compile;
 mod count;
 mod document;
+
+macro_rules! run_subcommand {
+    ($subcommand:expr) => {
+        let output = $subcommand;
+        if let Err(e) = output {
+            println!("{e}");
+        }
+    };
+}
 
 fn main() {
     let cli = cli::Cli::parse();
@@ -12,21 +22,23 @@ fn main() {
             bibcmd,
             glossary,
             all,
+            clear,
         } => {
-            let result = compile::compile(file, bibcmd, glossary, all);
-            if let Err(e) = result {
-                println!("{}", e);
+            run_subcommand!(compile::compile(file.clone(), bibcmd, glossary, all));
+            if clear {
+                run_subcommand!(clear::clear(file, false, all));
             }
         }
         cli::Command::Create => {
-            println!("create dat bitch")
+            todo!()
         }
 
         cli::Command::Count { filename } => {
-            let result = count::count(filename);
-            if let Err(e) = result {
-                println!("{}", e);
-            }
+            run_subcommand!(count::count(filename));
+        }
+
+        cli::Command::Clear { filename, pdf, all } => {
+            run_subcommand!(clear::clear(filename, pdf, all));
         }
     }
 }

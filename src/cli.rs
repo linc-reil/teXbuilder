@@ -29,6 +29,10 @@ pub enum Command {
         /// Whether or not to compile all LaTeX files in the current working directory.
         #[arg(short, long, default_value_t = false)]
         all: bool,
+
+        /// Whether or not to clear log files afterwards.
+        #[arg(short, long, default_value_t = false)]
+        clear: bool,
     },
 
     /// Create a new LaTeX document using a TUI.
@@ -38,5 +42,19 @@ pub enum Command {
     Count {
         /// The file to count.
         filename: String,
+    },
+
+    /// Clear log files / related files to a given LaTeX document or all LaTeX documents in the current working directory.
+    Clear {
+        /// The LaTeX document to clear related files for. If not specified, the --all flag must be used.
+        filename: Option<String>,
+
+        /// Whether or not to also delete associated pdf files.
+        #[arg(short, long, default_value_t = false)]
+        pdf: bool,
+
+        /// Whether or not to clear related files for all LaTeX documents in the current working directory.
+        #[arg(short, long, default_value_t = false)]
+        all: bool,
     },
 }
