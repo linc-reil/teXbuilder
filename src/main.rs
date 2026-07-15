@@ -1,6 +1,7 @@
 use clap::Parser;
 mod cli;
 mod compile;
+mod count;
 mod document;
 
 fn main() {
@@ -19,6 +20,13 @@ fn main() {
         }
         cli::Command::Create => {
             println!("create dat bitch")
+        }
+
+        cli::Command::Count { filename } => {
+            let result = count::count(filename);
+            if let Err(e) = result {
+                println!("{}", e);
+            }
         }
     }
 }

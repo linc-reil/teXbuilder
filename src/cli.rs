@@ -33,4 +33,10 @@ pub enum Command {
 
     /// Create a new LaTeX document using a TUI.
     Create,
+
+    /// Count the number of words of a given LaTeX document using texcount.
+    Count {
+        /// The file to count.
+        filename: String,
+    },
 }
